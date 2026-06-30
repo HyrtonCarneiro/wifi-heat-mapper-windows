@@ -38,6 +38,10 @@ Esses dados são obtidos diretamente do sistema operacional (Windows) ou calcula
 | `adapter_description` | Nome da placa Wi-Fi utilizada (salvo nas configurações globais do projeto). | Windows (Automático) | Relatório |
 | `station` | Flag indicando se o ponto foi marcado como uma Estação Fixa. | Interface (Manual) | Heatmaps |
 | `pixels_per_meter` | Escala da planta (utilizada para cálculos de distância). | Calibração (Manual) | JSON (Apenas) |
+| `scale_p1` | Coordenadas do primeiro ponto selecionado na calibração de escala. | Interface (Manual) | JSON (Apenas) |
+| `scale_p2` | Coordenadas do segundo ponto selecionado na calibração de escala. | Interface (Manual) | JSON (Apenas) |
+| `scale_meters` | Distância real, em metros, informada pelo usuário entre p1 e p2. | Interface (Manual) | JSON (Apenas) |
+| `networks` | Dicionário contendo os dados de todas as redes detectadas (com sufixo de banda, ex: `[2.4GHz]`), permitindo isolar a análise para um único AP ou banda. | Calculado (Python) | Relatório e JSON |
 
 ---
 

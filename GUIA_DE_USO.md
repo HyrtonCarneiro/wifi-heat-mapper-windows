@@ -18,23 +18,25 @@ Execute o `WiFi-Heat-Mapper.exe`. No menu principal, selecione **"Novo Projeto"*
 
 ### 2️⃣ Coleta de Dados (Benchmark)
 Com o notebook em mãos:
-1.  Caminhe até um ponto do mapa.
-2.  **Clique com o botão esquerdo** na planta para marcar sua posição.
-3.  **Clique com o botão direito** no ponto e selecione **"Benchmark"**.
-4.  O software realizará a captura instantânea de:
-    *   Scan completo de todas as redes Wi-Fi (BSSID, Sinal, Canal, Tecnologia).
+1.  **Opcional - Calibrar Planta**: Se desejar converter pixels para metros, clique em **"Calibrar Planta"**. Clique no início e no fim de uma parede no mapa, em seguida informe a distância real em metros.
+2.  Caminhe até um ponto do mapa. No painel lateral, você poderá acompanhar em tempo real o sinal do alvo e o scan de todas as outras redes sendo atualizados continuamente.
+3.  **Clique com o botão esquerdo** na planta para marcar sua posição.
+4.  **Clique com o botão direito** no ponto e selecione **"Benchmark"**.
+5.  O software realizará a captura instantânea de:
+    *   Scan completo de todas as redes Wi-Fi (separadas por SSIDs e bandas 2.4/5GHz).
     *   Cálculo automático de interferências (Co-channel e Adjacent).
     *   Métricas de qualidade de sinal baseadas no ambiente local.
-5.  Repita o processo em pelo menos **3 a 5 pontos** para que a interpolação do mapa de calor seja possível.
-6.  Clique em **"Save Results"** ao terminar.
+6.  Repita o processo em pelo menos **3 a 5 pontos** espalhados pelo ambiente.
+7.  Clique em **"Save Results"** ao terminar.
 
 ### 3️⃣ Visualização Interativa (Heatmaps)
 No menu principal, clique em **"Gerar Mapas de Calor"**. Esta é a ferramenta mais poderosa para sua análise:
 
-*   **Dropdown de Métricas**: Alterne entre Sinal (RSSI), SNR, Canal, **Interferência Co-channel**, **Densidade de APs**, etc.
-*   **Seleção de Redes**: Na lateral, marque ou desmarque os SSIDs que deseja visualizar. O mapa se ajusta dinamicamente.
-*   **Triangulação de APs (Feature B)**: Ao selecionar uma rede, um ícone **"X" vermelho** aparecerá no mapa indicando a localização física estimada do roteador (baseado no sinal mais forte).
-*   **Exportar**: Clique em **"Salvar Imagem"** para exportar a vista atual para o seu TCC.
+*   **Dropdown de Métricas**: Alterne entre Sinal (RSSI), SNR, Canal, **Interferência Co-channel**, **Densidade de APs**, etc. O ícone de 'ⓘ' mostra a descrição da métrica ao passar o mouse.
+*   **Seleção de Redes**: Na lateral, as redes detectadas são divididas entre **Redes Abertas** (sem senha) e **Redes Fechadas** (seguras). Marque ou desmarque os SSIDs (ou bandas específicas de um SSID) para ajustar dinamicamente o mapa.
+*   **Triangulação de APs**: Ao selecionar uma rede (com a opção habilitada), um ícone de **"X" vermelho** aparecerá no mapa indicando a localização física estimada do roteador.
+*   **Escala Calibrada**: Clique em **"Ver Escala Calibrada"** para exibir visualmente a proporção real do ambiente com base na calibração feita na etapa anterior.
+*   **Exportar**: Escolha o formato (png, pdf, svg) e clique em **"Salvar Imagem"** para exportar a vista atual com precisão.
 
 ### 4️⃣ Geração de Relatórios Acadêmicos
 No menu principal, utilize o botão **"Gerar Relatório Acadêmico"**.
