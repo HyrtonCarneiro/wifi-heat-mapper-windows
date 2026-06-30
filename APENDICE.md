@@ -46,28 +46,57 @@ Para a visualização dos dados em formato de mapa de calor:
 
 ## 3. Snippets de Código Críticos (Trechos Essenciais)
 
-### Abertura de Sessão com a `wlanapi.dll`
-O trecho abaixo ilustra como o sistema inicia a comunicação com a API nativa do Windows utilizando a biblioteca `ctypes` para obter um *handle* de acesso.
+### Cálculo de Interferência (CCI e ACI)
+Este algoritmo é executado durante o processo de *Site Survey*. Ele calcula matematicamente a poluição do espectro, diferenciando o comportamento de sobreposição da banda de 2.4 GHz (onde canais próximos se sobrepõem) da banda de 5 GHz.
 
 ```python
-import ctypes
-from ctypes import wintypes
+# 'connected_channel' é o canal da rede alvo sendo analisada
+# 'net' é a rede vizinha capturada no scan passivo
+if connected_channel > 0 and net['channel'] > 0:
+    ch_diff = abs(net['channel'] - connected_channel)
+    
+    # Verifica se ambas as redes estão operando na banda de 2.4 GHz (Canais 1-14)
+    is_2g = connected_channel <= 14 and net['channel'] <= 14
+    
+    # Interferência Co-Canal (CCI)
+    if net['channel'] == connected_channel:
+        co_interf += net.get('ap_count', 1)
+        
+    # Interferência de Canal Adjacente (ACI)
+    elif is_2g and 1 <= ch_diff <= 4:
+        # Na banda de 2.4GHz canais vizinhos até 4 números de distância se sobrepõem fisicamente
+        adj_interf += net.get('ap_count', 1)
+        
+    elif not is_2g and ch_diff == 1:
+        # Na banda de 5GHz, consideramos apenas canais imediatamente vizinhos
+        adj_interf += net.get('ap_count', 1)
 
-wlanapi = ctypes.windll.wlanapi
-client_version = wintypes.DWORD(2)  # Versão da API suportada
-negotiated_version = wintypes.DWORD()
-client_handle = wintypes.HANDLE()
+# O próprio AP alvo é subtraído do contador de CCI
+results["co_channel_interference"] = max(0, co_interf - 1)
+results["adjacent_channel_interference"] = adj_interf
+```
 
-# Abre um handle para a API Wlan (wlanapi.dll)
-result = wlanapi.WlanOpenHandle(
-    client_version,
-    None,
-    ctypes.byref(negotiated_version),
-    ctypes.byref(client_handle)
-)
+### Algoritmo de Interpolação do Heatmap (RBF)
+No processo de geração dos mapas de calor, o sistema coleta os pontos de amostra física e utiliza a Função de Base Radial para prever matematicamente a força do sinal em todos os pixels (matriz 100x100) da planta baixa.
 
-if result != 0:
-    raise RuntimeError(f"Erro ao inicializar WlanOpenHandle: {result}")
+```python
+import numpy as np
+from scipy.interpolate import Rbf
+
+# Cria a malha de pixels (grid) de 100x100 baseada no tamanho da planta (fdimx, fdimy)
+xi = np.linspace(0, fdimx, 100)
+yi = np.linspace(0, fdimy, 100)
+xi, yi = np.meshgrid(xi, yi)
+
+# (xs, ys, zs) são as listas de coordenadas (x, y) e métricas (ex: RSSI ou SNR) coletadas
+# Interpolação espacial matemática (RBF Linear)
+di = Rbf(xs, ys, zs, function="linear")
+zi = di(xi, yi)
+
+# Fixação das bordas para impedir que o modelo matemático extrapole e crie
+# cores falsas em regiões muito distantes do sinal (fora do domínio conhecido)
+zi[zi < vmin] = vmin
+zi[zi > vmax] = vmax
 ```
 
 ### Decodificação Binária do BSS Load (QBSS)

@@ -79,4 +79,3 @@ if %ERRORLEVEL% EQU 0 (
     echo   ERRO NO BUILD! Verifique os logs acima.
     echo ============================================
 )
-pause
