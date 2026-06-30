@@ -1,0 +1,16 @@
+**/**/__pycache__
+.vscode/*
+*.pyc
+*.pyo
+*.class
+*.egg-info
+build/*
+dist/*
+*.json
+*.png
+*.pdf
+*.eps
+*.ps
+*.svg
+*.log
+venv/*
