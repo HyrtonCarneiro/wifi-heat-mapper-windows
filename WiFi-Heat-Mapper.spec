@@ -3,7 +3,7 @@ from PyInstaller.utils.hooks import collect_all
 
 datas = [('wifi_heat_mapper', 'wifi_heat_mapper')]
 binaries = []
-hiddenimports = ['wifi_heat_mapper', 'wifi_heat_mapper.misc', 'wifi_heat_mapper.config', 'wifi_heat_mapper.gui', 'wifi_heat_mapper.graph', 'wifi_heat_mapper.windows_wlan', 'wifi_heat_mapper.debugger', 'PIL', 'scipy.interpolate', 'matplotlib', 'numpy', 'FreeSimpleGUI', 'psutil', 'tqdm']
+hiddenimports = ['wifi_heat_mapper', 'wifi_heat_mapper.misc', 'wifi_heat_mapper.config', 'wifi_heat_mapper.gui', 'wifi_heat_mapper.graph', 'wifi_heat_mapper.windows_wlan', 'wifi_heat_mapper.debugger', 'PIL', 'scipy.interpolate', 'matplotlib', 'numpy', 'FreeSimpleGUI', 'psutil', 'tqdm', 'openpyxl']
 tmp_ret = collect_all('matplotlib')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 tmp_ret = collect_all('scipy')
